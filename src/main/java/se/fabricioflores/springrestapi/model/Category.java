@@ -22,7 +22,7 @@ public class Category implements Serializable {
 
     private String description;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "category_location",
             joinColumns = @JoinColumn(
