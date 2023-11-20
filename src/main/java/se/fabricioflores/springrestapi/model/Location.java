@@ -7,6 +7,9 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.geolatte.geom.G2D;
+import org.geolatte.geom.Point;
+
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -36,6 +39,8 @@ public class Location implements Serializable {
     private LocalDateTime createdAt;
 
     private String description;
+
+    private Point<G2D> coordinate;
 
     public Long getId() {
         return id;
@@ -99,5 +104,13 @@ public class Location implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Point<G2D> getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(Point<G2D> coordinate) {
+        this.coordinate = coordinate;
     }
 }
