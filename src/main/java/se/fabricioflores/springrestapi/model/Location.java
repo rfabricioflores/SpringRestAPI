@@ -11,6 +11,9 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 public class Location implements Serializable {
+
+    public Location() {}
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(nullable = false, updatable = false, unique = true)
@@ -33,8 +36,6 @@ public class Location implements Serializable {
     private LocalDateTime createdAt;
 
     private String description;
-
-    public Location() {}
 
     public Long getId() {
         return id;
