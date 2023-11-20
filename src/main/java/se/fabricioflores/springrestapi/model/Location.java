@@ -25,7 +25,7 @@ public class Location implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "locations")
+    @ManyToMany(mappedBy = "locations", fetch = FetchType.EAGER)
     private Set<Category> categories = new LinkedHashSet<>();
 
     private Long userId;
