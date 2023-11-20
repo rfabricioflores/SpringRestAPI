@@ -26,8 +26,10 @@ public class Location implements Serializable {
 
     private String accessibility;
 
+    @Column(nullable = false)
     private LocalDateTime editedAt;
 
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     private String description;
