@@ -1,9 +1,9 @@
 package se.fabricioflores.springrestapi.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import se.fabricioflores.springrestapi.model.Accessibility;
+import se.fabricioflores.springrestapi.model.Location;
 import se.fabricioflores.springrestapi.service.LocationService;
 
 @RestController
@@ -19,5 +19,11 @@ public class LocationController {
     public ResponseEntity<Object> getLocations() {
         var locations = locationService.getAllLocations();
         return ResponseEntity.ok(locations);
+    }
+
+    @PostMapping
+    public ResponseEntity<Object> addLocation(@RequestBody Location body) {
+        var location = locationService.addLocation(body);
+        return ResponseEntity.ok(location);
     }
 }

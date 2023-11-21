@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import se.fabricioflores.springrestapi.model.Location;
 import se.fabricioflores.springrestapi.repo.LocationRepo;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -21,6 +22,9 @@ public class LocationService {
     }
 
     public Location addLocation(Location location) {
+        var time = LocalDateTime.now();
+        location.setCreatedAt(time);
+        location.setEditedAt(time);
         return locationRepo.save(location);
     }
 }
