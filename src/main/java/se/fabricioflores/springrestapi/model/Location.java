@@ -30,7 +30,7 @@ public class Location implements Serializable {
 
     private Long userId;
 
-    private String accessibility;
+    private Accessibility accessibility;
 
     @Column(nullable = false)
     private LocalDateTime editedAt;
@@ -74,11 +74,11 @@ public class Location implements Serializable {
         this.userId = userId;
     }
 
-    public String getAccessibility() {
+    public Accessibility getAccessibility() {
         return accessibility;
     }
 
-    public void setAccessibility(String accessibility) {
+    public void setAccessibility(Accessibility accessibility) {
         this.accessibility = accessibility;
     }
 
