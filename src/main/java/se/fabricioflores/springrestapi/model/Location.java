@@ -1,6 +1,7 @@
 package se.fabricioflores.springrestapi.model;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -10,12 +11,18 @@ import java.util.Set;
 import org.geolatte.geom.G2D;
 import org.geolatte.geom.Point;
 
+import static se.fabricioflores.springrestapi.databind.Point2DJsonMapper.Point2DDeserializer;
+import static se.fabricioflores.springrestapi.databind.Point2DJsonMapper.Point2DSerializer;
+
+import jakarta.persistence.*;
+
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 public class Location implements Serializable {
 
-    public Location() {}
+    public Location() {
+    }
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -40,6 +47,8 @@ public class Location implements Serializable {
 
     private String description;
 
+    @JsonSerialize(using = Point2DSerializer.class)
+    @JsonDeserialize(using = Point2DDeserializer.class)
     private Point<G2D> coordinate;
 
     public Long getId() {
