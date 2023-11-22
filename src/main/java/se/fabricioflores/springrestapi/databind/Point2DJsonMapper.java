@@ -36,14 +36,14 @@ public class Point2DJsonMapper {
         public Point<G2D> deserialize(
                 JsonParser jsonParser,
                 DeserializationContext deserializationContext
-        ) throws IOException {
+        ) throws IOException, NumberFormatException {
             JsonNode node = jsonParser.getCodec().readTree(jsonParser);
 
-            Double lat = (Double) node.get("lat").numberValue();
-            Double lon = (Double) node.get("lon").numberValue();
+            double lat = Double.parseDouble(node.get("lat").asText());
+            double lon = Double.parseDouble(node.get("lon").asText());
 
-            if (lat == null || lon == null) throw new IllegalArgumentException("Coordinate values are empty");
-            if (lat.isNaN() || lon.isNaN()) throw new IllegalArgumentException("Coordinate values are not valid");
+            if(lat > 90 || lat < -90) throw new IllegalArgumentException("Not valid latitude");
+            if(lon > 180 || lon < -180) throw new IllegalArgumentException("Not valid longitude");
 
             return point(WGS84, g(lon, lat));
         }
