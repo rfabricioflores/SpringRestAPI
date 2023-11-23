@@ -15,6 +15,8 @@ import static se.fabricioflores.springrestapi.databind.Point2DJsonMapper.Point2D
 import static se.fabricioflores.springrestapi.databind.Point2DJsonMapper.Point2DSerializer;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -39,9 +41,11 @@ public class Location implements Serializable {
 
     private Accessibility accessibility;
 
+    @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime editedAt;
 
+    @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
