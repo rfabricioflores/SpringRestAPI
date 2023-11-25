@@ -1,4 +1,4 @@
-package se.fabricioflores.springrestapi.payload;
+package se.fabricioflores.springrestapi.dto;
 
 import jakarta.validation.constraints.NotNull;
 
