@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.fabricioflores.springrestapi.model.Category;
-import se.fabricioflores.springrestapi.payload.AddCategoryReq;
+import se.fabricioflores.springrestapi.dto.AddCategoryReq;
 import se.fabricioflores.springrestapi.service.CategoryService;
 
 @RestController
