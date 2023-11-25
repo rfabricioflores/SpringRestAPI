@@ -13,7 +13,7 @@ public class SecurityConfig {
     // ** Base path e.g /api/ should NOT be added to the request matchers
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
+        http
                 .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
@@ -21,6 +21,8 @@ public class SecurityConfig {
                         .requestMatchers("/categories", "/categories/").permitAll()
                         .requestMatchers("/location/**").authenticated()
                         .anyRequest().denyAll()
-                ).build();
+                );
+
+        return http.build();
     }
 }
