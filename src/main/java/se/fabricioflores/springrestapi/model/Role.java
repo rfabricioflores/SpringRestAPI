@@ -5,12 +5,18 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
+import java.io.Serializable;
+
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
-public class Role {
+public class Role implements Serializable {
 
     public Role() {
+    }
+
+    public Role(String name) {
+        this.name = name;
     }
 
     @Id
