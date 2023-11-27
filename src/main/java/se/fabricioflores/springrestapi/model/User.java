@@ -2,13 +2,14 @@ package se.fabricioflores.springrestapi.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
-public class User {
+public class User implements Serializable {
 
     public User() {
     }
