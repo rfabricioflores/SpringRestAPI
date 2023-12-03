@@ -23,7 +23,7 @@ public class LocationController {
 
     @PostMapping
     public ResponseEntity<Object> addLocation(@RequestBody Location body) {
-        var location = locationService.addLocation(body);
+        var location = locationService.createLocation(body);
         return ResponseEntity.ok(location);
     }
 }
