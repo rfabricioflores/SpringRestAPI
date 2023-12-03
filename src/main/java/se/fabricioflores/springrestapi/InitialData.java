@@ -34,19 +34,24 @@ public class InitialData implements CommandLineRunner {
             roleRepo.save(new Role("USER"));
             logger.info("Created USER role");
         }
+
         if (optAdminRole.isEmpty()) {
             roleRepo.save(new Role("ADMIN"));
             logger.info("Created ADMIN role");
         }
 
         try {
-            User user = userService.save(
+            var optUser = userService.getUser("admin");
+            if (optUser.isPresent()) throw new RuntimeException("Admin user already exists");
+
+            User user = userService.createUser(
                     new AddUserReq(
                             "admin",
                             "hello",
                             List.of("ADMIN")
                     )
             );
+
             logger.info("Created default admin user with username: " + user.getUsername());
         } catch (RuntimeException ignored) {
         }
