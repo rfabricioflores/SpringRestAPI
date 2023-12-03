@@ -28,6 +28,20 @@ public class Location implements Serializable {
     public Location() {
     }
 
+    public Location(
+            String name,
+            Accessibility accessibility,
+            String description,
+            Point<G2D> coordinate,
+            Long userId
+    ) {
+        this.name = name;
+        this.accessibility = accessibility;
+        this.description = description;
+        this.coordinate = coordinate;
+        this.userId = userId;
+    }
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(nullable = false, updatable = false, unique = true)
