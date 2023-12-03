@@ -39,7 +39,7 @@ public class Location implements Serializable {
 
     private Long userId;
 
-    private Accessibility accessibility;
+    private Accessibility accessibility = Accessibility.PUBLIC;
 
     @UpdateTimestamp
     @Column(nullable = false)
