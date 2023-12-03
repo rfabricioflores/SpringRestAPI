@@ -17,6 +17,7 @@ import se.fabricioflores.springrestapi.repo.UserRepo;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,9 +35,23 @@ public class UserService implements IUserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // ** This is mainly used by admins
+    // ** User details service interface method implementation for retrieving user details
     @Override
-    public User save(@Valid AddUserReq addUserReq) throws RuntimeException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepo
+                .findOneByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                mapRolesToAuthorities(user.getRoles())
+        );
+    }
+
+    // ** Create new user entities with whatever roles you please, this is mainly used by admins
+    @Override
+    public User createUser(@Valid AddUserReq addUserReq) throws RuntimeException {
         var optUser = userRepo.findOneByUsername(addUserReq.username());
         if(optUser.isPresent()) throw new RuntimeException("User already exists");
 
@@ -45,7 +60,6 @@ public class UserService implements IUserService {
         user.setPassword(passwordEncoder.encode(addUserReq.password()));
 
         Set<Role> roles = new HashSet<>();
-        System.out.println("hash set");
 
         addUserReq.roles().forEach(r -> {
             var optRole = roleRepo.findRoleByName(r);
@@ -57,7 +71,7 @@ public class UserService implements IUserService {
         return userRepo.save(user);
     }
 
-    // ** Register new users
+    // ** Register new users, by default new users get the role "USER"
     @Override
     public User registerUser(@Valid UserRegisterReq userRegisterReq) {
         User user = new User();
@@ -72,16 +86,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo
-                .findOneByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
-
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                mapRolesToAuthorities(user.getRoles())
-                );
+    public Optional<User> getUser(String username) {
+        return userRepo.findOneByUsername(username);
     }
 
     // ** Convert role entities to authorities
