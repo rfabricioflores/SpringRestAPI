@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -59,9 +60,11 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/auth/login", "/auth/register").permitAll()
-                        .requestMatchers("/categories", "/categories/").permitAll()
-                        .requestMatchers("/location/**").authenticated()
+                        .requestMatchers(HttpMethod.POST,"/auth/login", "/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/categories", "/categories/*").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/categories", "/categories/").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/location", "/location/*").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/location").hasAnyAuthority("ADMIN", "USER")
                         .requestMatchers("/auth/welcome").hasAnyAuthority("ADMIN", "USER")
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
