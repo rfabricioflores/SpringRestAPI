@@ -49,11 +49,11 @@
 
 - GET `/api/locations/public?category=1`
 
-**# Not implemented yet**
-
 - GET `/api/locations/user` *(Requires authentication)*
 
-- GET `/api/locations/nearby`
+- GET `/api/locations/nearby?lat=42.2&lon=34`
+
+**# Not implemented yet**
 
 - PUT/PATCH `/api/locations/{locationId}` *(Requires authentication)*
 
