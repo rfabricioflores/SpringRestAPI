@@ -6,13 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
 import se.fabricioflores.springrestapi.model.Accessibility;
-import se.fabricioflores.springrestapi.model.Category;
 import se.fabricioflores.springrestapi.model.Location;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface LocationRepo extends ListCrudRepository<Location, Long> {
 
@@ -20,9 +17,10 @@ public interface LocationRepo extends ListCrudRepository<Location, Long> {
 
     Optional<Location> getLocationByIdAndAccessibility(Long locationId, Accessibility accessibility);
 
-    List<Location> getLocationsByAccessibilityAndCategoriesIn(
-            Accessibility accessibility,
-            Collection<Set<Category>> categories
+    @Query("SELECT l FROM Location l JOIN l.categories c WHERE c.id = :categoryId AND l.accessibility = :accessibility")
+    List<Location> getLocationsByCategoryAndAccessibility(
+            @Param("categoryId") Long categoryId,
+            @Param("accessibility") Accessibility accessibility
     );
 
     List<Location> getLocationsByUserId(Long userId);
