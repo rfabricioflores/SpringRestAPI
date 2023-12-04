@@ -32,6 +32,10 @@ public class LocationService {
         return locationRepo.findAll();
     }
 
+    public Optional<Location> getLocation(Long id) {
+        return locationRepo.findById(id);
+    }
+
     public Location createLocation(Location location) {
         return locationRepo.save(location);
     }
@@ -44,7 +48,6 @@ public class LocationService {
                 addLocationReq.coordinate(),
                 userId
         );
-        location.setName(addLocationReq.name());
 
         addLocationReq
                 .categories()
