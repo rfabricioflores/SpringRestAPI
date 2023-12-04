@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import se.fabricioflores.springrestapi.dto.AddUserReq;
 import se.fabricioflores.springrestapi.model.Role;
@@ -18,9 +19,20 @@ public class InitialData implements CommandLineRunner {
     private final IUserService userService;
     private final RoleRepo roleRepo;
     private static final Logger logger = LoggerFactory.getLogger(InitialData.class);
+    private final String adminPassword;
 
     @Autowired
-    public InitialData(IUserService userService, RoleRepo roleRepo) {
+    public InitialData(
+            IUserService userService,
+            RoleRepo roleRepo,
+            Environment environment
+    ) {
+        String adminPassword = environment.getProperty("ADMIN_PASSWORD", String.class);
+
+        if (adminPassword == null || adminPassword.isEmpty())
+            throw new RuntimeException("Missing ADMIN_PASSWORD environment variable");
+        this.adminPassword = adminPassword;
+
         this.userService = userService;
         this.roleRepo = roleRepo;
     }
@@ -47,7 +59,7 @@ public class InitialData implements CommandLineRunner {
             User user = userService.createUser(
                     new AddUserReq(
                             "admin",
-                            "hello",
+                            adminPassword,
                             List.of("ADMIN")
                     )
             );
