@@ -25,7 +25,7 @@ public interface LocationRepo extends ListCrudRepository<Location, Long> {
 
     List<Location> getLocationsByUserId(Long userId);
 
-    @Query("SELECT l FROM Location l WHERE ST_Within(l.coordinate, ST_Buffer(:centerCoordinate, :radius)) = true")
+    @Query("SELECT l FROM Location l WHERE ST_Distance_Sphere(l.coordinate, :centerCoordinate) <= :radius")
     List<Location> getLocationsWithinRadius(
             @Param("centerCoordinate") Point<G2D> centerCoordinate,
             @Param("radius") double radius
