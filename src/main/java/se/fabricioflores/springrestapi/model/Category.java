@@ -1,5 +1,6 @@
 package se.fabricioflores.springrestapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -7,7 +8,7 @@ import lombok.Setter;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.io.Serializable;
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -46,7 +47,8 @@ public class Category implements Serializable {
                     foreignKey = @ForeignKey(name = "fk_location")
             )
     )
-    private Set<Location> locations = new LinkedHashSet<>();
+    @JsonIgnore
+    private Set<Location> locations = new HashSet<>();
 
     @Override
     public final boolean equals(Object o) {

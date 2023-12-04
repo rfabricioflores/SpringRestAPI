@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -63,8 +63,12 @@ public class Location implements Serializable {
 
     private String description;
 
-    @ManyToMany(mappedBy = "locations", fetch = FetchType.EAGER)
-    private Set<Category> categories = new LinkedHashSet<>();
+    @ManyToMany(
+            mappedBy = "locations",
+            fetch = FetchType.EAGER,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+    )
+    private Set<Category> categories = new HashSet<>();
 
     @JsonSerialize(using = Point2DSerializer.class)
     @JsonDeserialize(using = Point2DDeserializer.class)
