@@ -16,6 +16,7 @@
 ### Category
 
 - POST `/api/categories`*(Admin users only)*
+
     ```json
     {
       "name": "Lakes",
