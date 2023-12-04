@@ -1,5 +1,6 @@
 package se.fabricioflores.springrestapi.service;
 
+import jakarta.transaction.Transactional;
 import org.geolatte.geom.G2D;
 import org.geolatte.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,8 @@ import se.fabricioflores.springrestapi.model.Location;
 import se.fabricioflores.springrestapi.repo.CategoryRepo;
 import se.fabricioflores.springrestapi.repo.LocationRepo;
 
-import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class LocationService {
@@ -37,7 +38,7 @@ public class LocationService {
         return locationRepo.save(location);
     }
 
-    // This method has a bug, must be fixed quickly
+    @Transactional
     public Location createLocationWithCategories(AddLocationReq addLocationReq, Long userId) {
 
         Location location = new Location(
@@ -48,24 +49,15 @@ public class LocationService {
                 userId
         );
 
-        Set<Category> categories = new HashSet<>();
-
-        addLocationReq
-                .categories()
-                .forEach(categoryId -> {
-                    // Uses the EntityManager to create a proxy Category with the specified ID
-                    // This way we avoid loading the whole category entity
-                    Category categoryProxy = categoryRepo.findById(categoryId).orElseThrow();
-                    categories.add(categoryProxy);
-                });
+        Set<Category> categories = new HashSet<>(categoryRepo.findAllById(addLocationReq.categories()));
 
         location.setCategories(categories);
 
-        Location savedLocation = locationRepo.save(location);
+        for (Category category : categories) {
+            category.getLocations().add(location);
+        }
 
-        categories.forEach(category -> category.setLocations(Set.of(savedLocation)));
-
-        return savedLocation;
+        return locationRepo.save(location);
     }
 
     public List<Location> getPublicLocations() {
