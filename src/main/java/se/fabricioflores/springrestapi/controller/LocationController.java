@@ -35,6 +35,16 @@ public class LocationController {
         return ResponseEntity.ok().body(location);
     }
 
+    // ** Create a new location
+    @PostMapping
+    public ResponseEntity<Object> addLocation(@RequestBody AddLocationReq body) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userService.getUser(username).orElseThrow();
+        var location = locationService.createLocationWithCategories(body, user.getId());
+
+        return ResponseEntity.ok(location);
+    }
+
     // ** Public locations
     @GetMapping("/public")
     public ResponseEntity<Object> getPublicLocations(
@@ -53,13 +63,13 @@ public class LocationController {
         return ResponseEntity.ok().body(location);
     }
 
-    // ** Create a new location
-    @PostMapping
-    public ResponseEntity<Object> addLocation(@RequestBody AddLocationReq body) {
+    // ** User locations
+    @GetMapping("/user")
+    public ResponseEntity<Object> getLocationsOfUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.getUser(username).orElseThrow();
-        var location = locationService.createLocationWithCategories(body, user.getId());
-
-       return ResponseEntity.ok(location);
+        var locations = locationService.getLocationsOfUser(user.getId());
+        return ResponseEntity.ok().body(locations);
     }
+
 }
