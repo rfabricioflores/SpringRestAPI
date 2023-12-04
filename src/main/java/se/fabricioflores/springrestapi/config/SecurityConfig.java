@@ -60,11 +60,21 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
+                        // ** ALL - login and register
                         .requestMatchers(HttpMethod.POST,"/auth/login", "/auth/register").permitAll()
+
+                        // ** ALL - all categories
                         .requestMatchers(HttpMethod.GET,"/categories", "/categories/*").permitAll()
+                        // ** ADMIN - add category
                         .requestMatchers(HttpMethod.POST,"/categories", "/categories/").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/location", "/location/*").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/location").hasAnyAuthority("ADMIN", "USER")
+
+                        // ** ALL - public locations
+                        .requestMatchers(HttpMethod.GET, "/locations/public", "/locations/public/*").permitAll()
+                        // ** ADMIN - all locations
+                        .requestMatchers(HttpMethod.GET, "/locations", "/locations/*").hasAuthority("ADMIN")
+                        // ** AUTH - add location
+                        .requestMatchers(HttpMethod.POST, "/locations").hasAnyAuthority("ADMIN", "USER")
+                        // ** AUTH - welcome
                         .requestMatchers("/auth/welcome").hasAnyAuthority("ADMIN", "USER")
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
