@@ -79,7 +79,7 @@ public class LocationService {
         return locationRepo.getLocationsByUserId(userId);
     }
 
-    public List<Location> getLocationsWithinRadiusFromCoordinate(Point<G2D> coordinate, double radius) {
-        return locationRepo.getLocationsWithinRadius(coordinate, radius);
+    public List<Location> getLocationsWithinRadiusFromCoordinate(Point<G2D> coordinate, double radiusInMeters) {
+        return locationRepo.getLocationsWithinRadius(coordinate, radiusInMeters);
     }
 }
