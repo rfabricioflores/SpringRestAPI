@@ -27,6 +27,12 @@ public class LocationController {
         return ResponseEntity.ok(locations);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getLocation(@PathVariable(name = "id") Long id) {
+        var location =  locationService.getLocation(id).orElseThrow(() -> new RuntimeException("Location with id" + id + " does not exists"));
+        return ResponseEntity.ok().body(location);
+    }
+
     @PostMapping
     public ResponseEntity<Object> addLocation(@RequestBody AddLocationReq body) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
