@@ -1,6 +1,9 @@
 package se.fabricioflores.springrestapi.model;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.io.Serializable;
@@ -11,10 +14,17 @@ import java.util.Set;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
+@Getter
+@Setter
 public class Category implements Serializable {
+
+    public Category() {
+    }
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(nullable = false, updatable = false, unique = true)
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     @Column(unique = true)
@@ -37,48 +47,6 @@ public class Category implements Serializable {
             )
     )
     private Set<Location> locations = new LinkedHashSet<>();
-
-    public Category() {}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Set<Location> getLocations() {
-        return locations;
-    }
-
-    public void setLocations(Set<Location> locations) {
-        this.locations = locations;
-    }
 
     @Override
     public final boolean equals(Object o) {
