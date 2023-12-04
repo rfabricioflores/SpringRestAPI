@@ -12,10 +12,7 @@ import se.fabricioflores.springrestapi.repo.CategoryRepo;
 import se.fabricioflores.springrestapi.repo.LocationRepo;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class LocationService {
@@ -40,7 +37,9 @@ public class LocationService {
         return locationRepo.save(location);
     }
 
+    // This method has a bug, must be fixed quickly
     public Location createLocationWithCategories(AddLocationReq addLocationReq, Long userId) {
+
         Location location = new Location(
                 addLocationReq.name(),
                 addLocationReq.accessibility(),
@@ -49,16 +48,24 @@ public class LocationService {
                 userId
         );
 
+        Set<Category> categories = new HashSet<>();
+
         addLocationReq
                 .categories()
                 .forEach(categoryId -> {
                     // Uses the EntityManager to create a proxy Category with the specified ID
                     // This way we avoid loading the whole category entity
                     Category categoryProxy = categoryRepo.findById(categoryId).orElseThrow();
-                    location.getCategories().add(categoryProxy);
+                    categories.add(categoryProxy);
                 });
 
-        return locationRepo.save(location);
+        location.setCategories(categories);
+
+        Location savedLocation = locationRepo.save(location);
+
+        categories.forEach(category -> category.setLocations(Set.of(savedLocation)));
+
+        return savedLocation;
     }
 
     public List<Location> getPublicLocations() {
@@ -70,12 +77,9 @@ public class LocationService {
     }
 
     public List<Location> getPublicLocationsByCategory(Long categoryId) {
-        var optCategory = categoryRepo.findById(categoryId);
-        if(optCategory.isEmpty()) throw new RuntimeException("Category doesn't exist");
-
-        return locationRepo.getLocationsByAccessibilityAndCategoriesIn(
-                Accessibility.PUBLIC,
-                Set.of(Collections.singleton(optCategory.get()))
+        return locationRepo.getLocationsByCategoryAndAccessibility(
+                categoryId,
+                Accessibility.PUBLIC
         );
     }
 
