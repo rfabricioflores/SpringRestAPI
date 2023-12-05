@@ -12,10 +12,11 @@
 - Code editor like intellij or vscode
 
 ## Endpoints
+For secured endpoints use the `Authorization` header with `Bearer your-generated-token`
 
 ### Category
 
-- POST `/api/categories`*(Admin users only)*
+- POST `/api/categories` *(Admin users only)*
 
     ```json
     {
