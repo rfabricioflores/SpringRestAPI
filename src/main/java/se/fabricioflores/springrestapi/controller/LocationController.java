@@ -48,7 +48,7 @@ public class LocationController {
     public ResponseEntity<Object> addLocation(@RequestBody LocationDto body) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.getUser(username).orElseThrow();
-        var location = locationService.createLocationWithCategories(body, user.getId());
+        var location = locationService.createLocation(body, user.getId());
 
         return ResponseEntity.ok(location);
     }

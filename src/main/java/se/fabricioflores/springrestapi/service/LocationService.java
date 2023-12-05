@@ -33,12 +33,8 @@ public class LocationService {
         return locationRepo.findById(id);
     }
 
-    public Location createLocation(Location location) {
-        return locationRepo.save(location);
-    }
-
     @Transactional
-    public Location createLocationWithCategories(LocationDto data, Long userId) {
+    public Location createLocation(LocationDto data, Long userId) {
 
         Location location = new Location(
                 data.name(),
@@ -82,5 +78,14 @@ public class LocationService {
 
     public List<Location> getLocationsWithinRadiusFromCoordinate(Point<G2D> coordinate, double radiusInMeters) {
         return locationRepo.getLocationsWithinRadius(coordinate, radiusInMeters);
+    }
+
+    public Location updateLocation(Long locationId) {
+
+        return null;
+    }
+
+    public boolean deleteLocation() {
+        return false;
     }
 }
