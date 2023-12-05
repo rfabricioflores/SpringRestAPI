@@ -9,7 +9,7 @@ import se.fabricioflores.springrestapi.model.Accessibility;
 
 import java.util.List;
 
-public record AddLocationReq(
+public record LocationDto(
         String name,
         List<Long> categories,
         Accessibility accessibility,
