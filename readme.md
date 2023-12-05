@@ -54,9 +54,21 @@
 
 - GET `/api/locations/nearby?lat=42.2&lon=34`
 
-**# Not implemented yet**
+- PATCH `/api/locations` *(Requires authentication)*
 
-- PUT/PATCH `/api/locations/{locationId}` *(Requires authentication)*
+    ```json
+    {
+     "id": 1,
+     "name": "new name",
+     "categories": [1],
+     "description": "better description",
+     "accessibility": "public",
+     "coordinate": {
+       "lat": 13.2,
+       "lon": 21.2
+     }
+    }
+    ```
 
 - DELETE `/api/locations/{locationId}` *(Requires authentication)*
 
