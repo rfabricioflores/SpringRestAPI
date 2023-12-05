@@ -5,7 +5,7 @@ import org.geolatte.geom.G2D;
 import org.geolatte.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import se.fabricioflores.springrestapi.dto.AddLocationReq;
+import se.fabricioflores.springrestapi.dto.LocationDto;
 import se.fabricioflores.springrestapi.model.Accessibility;
 import se.fabricioflores.springrestapi.model.Category;
 import se.fabricioflores.springrestapi.model.Location;
@@ -13,7 +13,6 @@ import se.fabricioflores.springrestapi.repo.CategoryRepo;
 import se.fabricioflores.springrestapi.repo.LocationRepo;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class LocationService {
@@ -39,7 +38,7 @@ public class LocationService {
     }
 
     @Transactional
-    public Location createLocationWithCategories(AddLocationReq data, Long userId) {
+    public Location createLocationWithCategories(LocationDto data, Long userId) {
 
         Location location = new Location(
                 data.name(),
