@@ -39,22 +39,24 @@ public class LocationService {
     }
 
     @Transactional
-    public Location createLocationWithCategories(AddLocationReq addLocationReq, Long userId) {
+    public Location createLocationWithCategories(AddLocationReq data, Long userId) {
 
         Location location = new Location(
-                addLocationReq.name(),
-                addLocationReq.accessibility(),
-                addLocationReq.description(),
-                addLocationReq.coordinate(),
+                data.name(),
+                data.accessibility(),
+                data.description(),
+                data.coordinate(),
                 userId
         );
 
-        Set<Category> categories = new HashSet<>(categoryRepo.findAllById(addLocationReq.categories()));
+        if (data.categories() != null && !data.categories().isEmpty()) {
+            Set<Category> categories = new HashSet<>(categoryRepo.findAllById(data.categories()));
 
-        location.setCategories(categories);
+            location.setCategories(categories);
 
-        for (Category category : categories) {
-            category.getLocations().add(location);
+            for (Category category : categories) {
+                category.getLocations().add(location);
+            }
         }
 
         return locationRepo.save(location);
