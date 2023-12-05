@@ -71,6 +71,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/locations/nearby").permitAll()
                         .requestMatchers(HttpMethod.GET, "/locations", "/locations/*").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/locations").hasAnyAuthority("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.PATCH, "/locations").hasAnyAuthority("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE, "/locations", "/locations/*").hasAnyAuthority("ADMIN", "USER")
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
