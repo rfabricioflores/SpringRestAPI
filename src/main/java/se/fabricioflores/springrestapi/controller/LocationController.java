@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import se.fabricioflores.springrestapi.dto.LocationDto;
+import se.fabricioflores.springrestapi.dto.LocationEditDto;
 import se.fabricioflores.springrestapi.service.IUserService;
 import se.fabricioflores.springrestapi.service.LocationService;
 
@@ -51,6 +52,22 @@ public class LocationController {
         var location = locationService.createLocation(body, user.getId());
 
         return ResponseEntity.ok(location);
+    }
+
+    @PatchMapping
+    public ResponseEntity<Object> updateLocation(@RequestBody @Valid LocationEditDto body) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userService.getUser(username).orElseThrow();
+        var location = locationService.updateLocation(body, user.getId());
+        return ResponseEntity.ok().body(location);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteLocation(@PathVariable(name = "id") Long locationId) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userService.getUser(username).orElseThrow();
+        locationService.deleteLocation(locationId, user.getId());
+        return ResponseEntity.ok().body("Location deleted successfully");
     }
 
     // ** Public locations
