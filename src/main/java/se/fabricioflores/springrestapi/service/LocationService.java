@@ -2,6 +2,7 @@ package se.fabricioflores.springrestapi.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.geolatte.geom.G2D;
 import org.geolatte.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class LocationService {
     }
 
     @Transactional
-    public Location createLocation(LocationDto data, Long userId) {
+    public Location createLocation(@Valid LocationDto data, Long userId) {
 
         Location location = new Location(
                 data.name(),
