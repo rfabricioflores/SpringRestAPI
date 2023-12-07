@@ -1,0 +1,15 @@
+package se.fabricioflores.springrestapi.dto;
+
+public record GeoResponse(
+    Address address
+) {
+}
+
+record Address(
+        String road,
+        String village,
+        String municipality,
+        String county,
+        String postcode,
+        String country
+) {}
