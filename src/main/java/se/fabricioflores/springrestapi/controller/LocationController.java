@@ -100,8 +100,8 @@ public class LocationController {
     // ** Near by locations
     @GetMapping("/nearby")
     public ResponseEntity<Object> getLocationsNearby(
-            @RequestParam @Valid @NotNull @NotEmpty Double lat,
-            @RequestParam @Valid @NotNull @NotEmpty Double lon
+            @RequestParam @Valid @NotNull Double lat,
+            @RequestParam @Valid @NotNull Double lon
     ) {
         if(lat > 90 || lat < -90) throw new IllegalArgumentException("Not valid latitude");
         if(lon > 180 || lon < -180) throw new IllegalArgumentException("Not valid longitude");
