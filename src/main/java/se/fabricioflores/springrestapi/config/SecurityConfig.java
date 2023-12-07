@@ -63,6 +63,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/auth/login", "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.GET,"/auth/welcome").hasAnyAuthority("ADMIN", "USER")
 
+                        .requestMatchers(HttpMethod.GET,"/geo").permitAll()
+
                         .requestMatchers(HttpMethod.GET,"/categories", "/categories/*").permitAll()
                         .requestMatchers(HttpMethod.POST,"/categories", "/categories/").hasAuthority("ADMIN")
 
