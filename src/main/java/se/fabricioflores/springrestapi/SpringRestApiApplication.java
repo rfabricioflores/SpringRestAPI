@@ -8,9 +8,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.retry.annotation.EnableRetry;
 
 import static org.geolatte.geom.crs.CoordinateReferenceSystems.WGS84;
 
+@EnableRetry
 @SpringBootApplication
 public class SpringRestApiApplication {
 
