@@ -1,7 +1,6 @@
 package se.fabricioflores.springrestapi.controller;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +34,10 @@ public class GeoCodeController {
         if(lon > 180 || lon < -180) throw new IllegalArgumentException("Not valid longitude");
 
         var data = geoCodeService.convertCoordinateToAdress(point(WGS84, g(lon, lat)));
+
+        if(data.error() != null) return ResponseEntity.status(404).body(new Object() {
+            public final String error = data.error();
+        });
         return ResponseEntity.ok().body(data.address());
     }
 }

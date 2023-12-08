@@ -1,7 +1,8 @@
 package se.fabricioflores.springrestapi.dto;
 
 public record GeoResponse(
-    Address address
+    Address address,
+    String error
 ) {
 }
 
