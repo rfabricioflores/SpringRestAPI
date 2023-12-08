@@ -74,6 +74,11 @@ For secured endpoints use the `Authorization` header with `Bearer your-generated
 - DELETE `/api/locations/{locationId}` *(Requires authentication)*
 
 
+### Geo
+
+- GET `/api/geo?lat=51.848637&lon=-0.55462`
+
+
 ### Authentication
 
 - POST `/api/auth/register` *(Creates new user)*
