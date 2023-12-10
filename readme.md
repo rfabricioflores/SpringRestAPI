@@ -57,6 +57,8 @@ For secured endpoints use the `Authorization` header with `Bearer your-generated
 
 - PATCH `/api/locations` *(Requires authentication)*
 
+  All properties are optional for edition except id since it's used for location referral
+
     ```json
     {
      "id": 1,
